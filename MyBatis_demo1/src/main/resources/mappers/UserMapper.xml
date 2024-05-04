@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--Mapper映射文件，映射对应的UserMapper接口，将接口的全类名信息,方法映射到该配置文件中=>并在该配置文件中写sql语句-->
+<mapper namespace="mappers.UserMapper">   <!--namespace配置,mapper接口在包中，使用.来表示包的层次-->
+    <insert id="insertUser">
+        insert into tb01 values(null,'Alice',11)
+    </insert>
+
+    <delete id="deleteUser">
+        delete from tb01 where id=5
+    </delete>
+
+    <update id="updateUser">
+        <!--        update tb01 set name='Tom' where id=2-->
+        update tb01 set name='Jack' where id=3
+    </update>
+
+    <select id="getUserByID" resultType="User">
+        select *from tb01 where id= '${id}'     <!--只有一个参数时，可以以任意参数名来接收-->
+    </select>
+
+    <select id="getUserByIdAndName1" resultType="User">
+        select *from tb01 where id=#{arg0} and name=#{param2}   <!--有多个参数时，MyBatis会将参数放到map集合中，以arg0,arg1,param1,param2为键，各参数的值依次为值-->
+    </select>
+
+    <insert id="insertByUser">
+        insert into tb01 values(null,#{name},#{age})  <!--当参数为实体类对象时，在sql语句中直接使用其属性名即可-->
+    </insert>
+
+    <select id="getUserByIdAndName2" resultType="map">
+        select *from tb01 where id=#{myId} and name=#{myName}   <!--在参数位置使用@Param注解来为map集合中的键自定义名称-->
+    </select>
+
+    <select id="getCount" resultType="Integer">
+        select count(*) from tb01    <!--resultType为int-->
+    </select>
+
+    <select id="getAllUserInMap" resultType="map">
+        select *from tb01 where id in (${id1},${id2},${id3})
+    </select>
+
+
+
+    <select id="getAllUser" resultType="User">  <!--查询返回的记录结果用跟该表对应的类实例化对象来接收-->
+        select *from tb01
+    </select>
+
+    <select id="getInMapByName" resultType="map">
+        select *from tb01 where name like '%${name}%'   <!--模糊查询，三种使用参数的方式-->
+        <!--select *from tb01 where name like concat('%',#{name},'%')-->
+        <!--select *from tb01 where name like "%"#{name}"%" -->
+    </select>
+
+    <!--获得自增的主键，放到插入对象的id属性中-->
+    <insert id="getAutoKey" useGeneratedKeys="true" keyProperty="id">
+        insert into tb01 values(#{id},#{name},#{age})
+    </insert>
+
+</mapper>

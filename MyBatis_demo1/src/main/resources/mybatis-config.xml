@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--MyBatis的核心配置文件-->
+<configuration>
+    <properties resource="jdbc.properties" />   <!--引入property配置文件，用于property标签使用-->
+
+    <typeAliases>    <!--类型别名配置,用于对类和接口等配置别名，在mapper映射文件中使用更简洁-->
+<!--        <typeAlias type="myClass.User" alias="User"></typeAlias>  &lt;!&ndash;当没有指定alias属性时，会默认以类名或接口名作为别名&ndash;&gt;-->
+        <package name="myClass"/>   <!--以包为单位配置别名，包中的所有类均默认别名为类名-->
+    </typeAliases>
+
+<!--   配置连接数据库的环境-->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+    <!--<mappers resource="mappers/UserMapper.xml"/>        &lt;!&ndash;Mapper映射文件的路径&ndash;&gt;-->
+        <!--以包为单位引入映射文件
+            条件:
+            1.mapper接口和对应映射文件要在同名文件夹中
+            2.mapper接口和映射文件名字一致
+        -->
+        <package name="mappers"/>
+    </mappers>
+</configuration>
