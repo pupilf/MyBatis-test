@@ -1,0 +1,1 @@
+**MyBatis test in IDEA**
